@@ -4,8 +4,7 @@ kind: Kustomization
 namespace: content-prd
 
 resources:
-  - ../../../base/namespace.yaml
-  - ../../../base/resourcequota.yaml
+  - ../../../base
 
 patches:
   - target:
