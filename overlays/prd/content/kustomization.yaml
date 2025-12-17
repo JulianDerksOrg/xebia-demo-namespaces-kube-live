@@ -1,11 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: team-streaming-tst
+namespace: content-prd
 
 resources:
-  - ../../base/namespace.yaml
-  - ../../base/resourcequota.yaml
+  - ../../../base/namespace.yaml
+  - ../../../base/resourcequota.yaml
 
 patches:
   - target:
@@ -14,10 +14,10 @@ patches:
     patch: |
       - op: replace
         path: /metadata/name
-        value: team-streaming-tst
+        value: content-prd
       - op: add
         path: /metadata/labels/primetime.io~1team
-        value: streaming
+        value: content
       - op: add
         path: /metadata/labels/primetime.io~1environment
-        value: tst
+        value: prd

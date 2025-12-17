@@ -1,0 +1,30 @@
+# ArgoCD Application to manage ArgoCD itself (self-management)
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    - repoURL: europe-west4-docker.pkg.dev/sandbox-9456/helm
+      chart: argo-cd
+      targetRevision: 9.1.8
+      helm:
+        valueFiles:
+          - $values/values.yaml
+    - repoURL: https://github.com/JulianDerksOrg/xebia-demo-argocd-kube-live.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
