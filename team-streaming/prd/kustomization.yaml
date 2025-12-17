@@ -1,0 +1,42 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: team-streaming-prd
+
+resources:
+  - ../../base/namespace.yaml
+  - ../../base/resourcequota.yaml
+
+patches:
+  - target:
+      kind: Namespace
+      name: PLACEHOLDER
+    patch: |
+      - op: replace
+        path: /metadata/name
+        value: team-streaming-prd
+      - op: add
+        path: /metadata/labels/primetime.io~1team
+        value: streaming
+      - op: add
+        path: /metadata/labels/primetime.io~1environment
+        value: prd
+  - target:
+      kind: ResourceQuota
+      name: default
+    patch: |
+      - op: replace
+        path: /spec/hard/requests.cpu
+        value: "4"
+      - op: replace
+        path: /spec/hard/requests.memory
+        value: 8Gi
+      - op: replace
+        path: /spec/hard/limits.cpu
+        value: "8"
+      - op: replace
+        path: /spec/hard/limits.memory
+        value: 16Gi
+      - op: replace
+        path: /spec/hard/pods
+        value: "50"
