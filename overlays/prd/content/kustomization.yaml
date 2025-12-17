@@ -20,3 +20,10 @@ patches:
       - op: add
         path: /metadata/labels/primetime.io~1environment
         value: prd
+  - target:
+      kind: ResourceQuota
+      name: default
+    patch: |
+      - op: replace
+        path: /metadata/name
+        value: content-prd-limits
